@@ -1,3 +1,4 @@
+import "regenerator-runtime/runtime";
 const supertest = require('supertest');
 const request = supertest('http://localhost:3000');
 
@@ -12,20 +13,21 @@ describe('GET /messages', () => {
     return request.get('/messages')
       .expect(200)
       .expect(({ body }) => {
-        expect(body.length).toBe(5);
+        expect(body.length).toBe(3);
       })
   });
 });
 
+const newMessage = 'Hello new test message';
+let messageId = 1;
 describe('POST /messages', () => {
-  const newMessage = 'Hello new test message'
   it('should create a message', async () => {
     return request.post('/messages')
       .send({ title: newMessage, content: 'content' })
-      .expect(200)
+      .expect(201)
       .expect(({ body }) => {
-        console.log(body);
-        expect(body.message.title).toBe(newMessage);
+        messageId = body.id;
+        expect(body.title).toBe(newMessage);
       })
   });
 
@@ -34,11 +36,54 @@ describe('POST /messages', () => {
     return request.get('/messages')
       .expect(200)
       .expect(({ body }) => {
-        expect(body.length).toBe(6);
+        expect(body.length).toBe(4);
         
-        if (!body.find(msg => msg.content === newMessage)) {
+        if (!body.find(msg => msg.title === newMessage)) {
           throw new Error('message has not been created');
         }
       });
   });
 })
+
+describe('UPDATE /messages/:id', () => {
+  it('should get messages properly', async () => {
+    await sleep(2000);
+    return request.put(`/messages/${messageId}`)
+      .send({ content: newMessage })
+      .expect(200);
+  });
+
+  it('should retrieve new message in GET /messages', async () => {
+    await sleep(2000);
+    return request.get('/messages')
+      .expect(200)
+      .expect(({ body }) => {
+        expect(body.length).toBe(4);
+        
+        if (!body.find(msg => msg.content === newMessage && msg.title === newMessage)) {
+          throw new Error('message has not been created');
+        }
+      });
+  });
+});
+
+describe('DELETE /messages/:id', () => {
+  it('should get messages properly', async () => {
+    await sleep(2000);
+    return request.delete(`/messages/${messageId}`)
+      .expect(200);
+  });
+
+  it('should not retrieve new message in GET /messages', async () => {
+    await sleep(2000);
+    return request.get('/messages')
+      .expect(200)
+      .expect(({ body }) => {
+        expect(body.length).toBe(3);
+        
+        if (body.find(msg => msg.content === newMessage)) {
+          throw new Error('message has not been created');
+        }
+      });
+  });
+});
