@@ -23,9 +23,7 @@ const message = {
         return message ? res.send('deleted') : res.sendStatus(404);
     },
     async update(req, res) {
-        console.log(req.body);
         const {title, content} = req.body;
-        console.log({title, content});
         try {
             const message = await db.message.update({title, content}, {
                 where: {
