@@ -1,4 +1,4 @@
-import db from '../models/index';
+import db from '../models/db';
 
 const message = {
     async get(req, res) {
