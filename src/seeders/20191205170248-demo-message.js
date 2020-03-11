@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: (queryInterface) => {
     return queryInterface.bulkInsert('Messages', [
       {
         title: 'First message',
@@ -24,7 +24,7 @@ module.exports = {
     ], {});
   },
 
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.bulkDelete('People', null, {});
   }
 };

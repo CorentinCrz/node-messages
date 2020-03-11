@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
     "unit": "jest tests/unit --verbose",
-    "e2e": "jest tests/e2e"
+    "e2e": "jest tests/e2e",
+    "lint": "npx eslint src/"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
     "@babel/core": "^7.7.4",
     "@babel/node": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
+    "eslint": "^6.8.0",
     "jest": "^25.1.0",
     "nodemon": "^2.0.1",
     "supertest": "^4.0.2"
