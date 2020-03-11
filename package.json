@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
-    "unit": "jest tests/unit --verbose",
+    "unit": "jest tests/unit --coverage",
     "e2e": "jest tests/e2e",
     "lint": "npx eslint src/"
   },
