@@ -24,7 +24,7 @@ npx sequelize-cli db:migrate
 To **lauch the app** localy:
 - Download this repository
 - Install dependencies
-- Un [docker-compose](./docker-compose.yml) file is available:
+- A [docker-compose](./docker-compose.yml) file is available:
   ```bash
   # Lauch MySQL, PHPMYADMIN and API containers:
   docker-compose up -d
