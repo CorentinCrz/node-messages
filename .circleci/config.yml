@@ -29,6 +29,7 @@ jobs:
     docker:
       - image: circleci/node:10.16.3
     steps:
+      - checkout
       - run:
           name: unit-test
           command: npm run unit
