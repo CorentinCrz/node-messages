@@ -19,17 +19,24 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
+  #  build:
+  #    machine: # Specifies a machine image that uses
+  #    # an Ubuntu version 14.04 image with Docker 17.06.1-ce
+  #    # and docker-compose 1.14.0, follow CircleCI Discuss Announcements
+  #    # for new image releases.
+  #      image: circleci/classic:201708-01
+  test:
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
       - run:
-          name: uhnit-test
+          name: unit-test
           command: npm run unit
-      # - run:
-      #     name: code-coverage
-      #     command: './node_modules/.bin/nyc report --reporter=text-lcov'
-      # - store_artifacts:
-      #     path: test-results.xml
-      #     prefix: tests
-      # - store_artifacts:
-      #     path: coverage
-      #     prefix: coverage
-      # - store_test_results:
-      #     path: test-results.xml
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+           - build
